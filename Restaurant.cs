@@ -30,12 +30,20 @@ namespace PRG2_Assignment
             set { menus = value; }
         }
 
+        private List<Order> orders;
+        public List<Order> Orders
+        {
+            get { return orders; }
+            set { orders = value; }
+        }
+
         public Restaurant(string restaurantId, string restaurantName, string restaurantEmail)
         {
             RestaurantId = restaurantId;
             RestaurantName = restaurantName;
             RestaurantEmail = restaurantEmail;
             menus = new List<Menu>();
+            orders = new List<Order>();
         }
 
         public void DisplayOrders()
