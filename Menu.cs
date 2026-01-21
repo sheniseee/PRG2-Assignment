@@ -42,17 +42,15 @@ namespace PRG2_Assignment
             }
         }
 
-        public bool RemoveFoodItem(FoodItem foodItemId)
+        public bool RemoveFoodItem(int foodItemId)
         {
-            var itemToRemove = foodItems.Find(item => item.FoodItemId == foodItemId);
-            if (itemToRemove != null)
+            if (int i = 0; i < foodItems.Count; i++)
             {
-                foodItems.Remove(itemToRemove);
-                return true;
-            }
-            else
-            {
-                return false;
+                if (foodItems[i].FoodItemId == foodItemId)
+                {
+                    foodItems.RemoveAt(i);
+                    return true;
+                }
             }
         }
 
@@ -77,3 +75,4 @@ namespace PRG2_Assignment
             return $"Menu ID: {MenuId}, Menu Name: {MenuName}, Number of Food Items: {foodItems.Count}";
         }
     }
+}
