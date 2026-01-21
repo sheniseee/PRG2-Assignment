@@ -23,10 +23,18 @@ namespace PRG2_Assignment
             set { foodItems = value; }
         }
 
-        public Menu(string menuId, string menuName)
+        private Restaurant restaurant;
+        public Restaurant Restaurant
+        {
+            get { return restaurant; }
+            set { restaurant = value; }
+        }
+
+        public Menu(string menuId, string menuName, Restaurant restaurant)
         {
             MenuId = menuId;
             MenuName = menuName;
+            Restaurant = restaurant;
             foodItems = new List<FoodItem>();
         }
 
