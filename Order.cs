@@ -99,24 +99,52 @@ namespace PRG2_Assignment
 
         public void AddOrderedFoodItem(OrderedFoodItem foodItem)
         {
-            orderedFoodItems.Add(foodItem)
-            OrderTotal = CalculateOrderTotal(); //recalculate total after adding item
-
+            if (foodItem != null)
+            {
+                orderedFoodItems.Add(foodItem);
+                OrderTotal = CalculateOrderTotal(); // Recalculate total after adding item
+                Console.WriteLine($"Food item '{foodItem.FoodItemName}' added to the order.");
+            }
+            else
+            {
+                Console.WriteLine("Cannot add a null food item.");
+            }
         }
 
         public bool RemoveOrderedFoodItem(OrderedFoodItem foodItem)
         {
-            orderedFoodItems.Remove(foodItem)
-            OrderTotal = CalculateOrderTotal();
-            return true;
+            if (foodItem == null)
+            {
+                Console.WriteLine("Cannot remove a null food item.");
+                return false;
+            }
+
+            bool result = orderedFoodItems.Remove(foodItem);
+            if (result)
+            {
+                OrderTotal = CalculateOrderTotal(); 
+                Console.WriteLine($"Food item '{foodItem.FoodItemName}' removed from the order.");
+            }
+            else
+            {
+                Console.WriteLine("Food item not found in the order.");
+            }
+            return result;
         }
 
         public void DisplayOrderedFoodItems()
         {
-            Console.WriteLine("Ordered Food Items:");
-            foreach (var foodItem in OrderedFoodItems)
+            if (orderedFoodItems.Count == 0)
             {
-                Console.WriteLine(item.ToString());
+                Console.WriteLine("No food items in the order.");
+            }
+            else
+            {
+                Console.WriteLine("Ordered Food Items:");
+                foreach (var foodItem in OrderedFoodItems)
+                {
+                    Console.WriteLine($"ID: {foodItem.FoodItemId}, Name: {foodItem.FoodItemName}, Quantity: {foodItem.Quantity}, Total Price: {foodItem.TotalPrice:C}");
+                }
             }
         }
 
