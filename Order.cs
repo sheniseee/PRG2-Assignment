@@ -1,3 +1,9 @@
+//========================================================== 
+// Student Number : S10273890
+// Student Name : Shenise Lim Em Qing 
+// Partner Name : Chloe Heng Chi Xuan
+//========================================================== 
+
 namespace PRG2_Assignment
 {
     public class Order
@@ -101,7 +107,7 @@ namespace PRG2_Assignment
         public bool RemoveOrderedFoodItem(OrderedFoodItem foodItem)
         {
             orderedFoodItems.Remove(foodItem)
-            OrderTotal = CalculateOrderTotal(); 
+            OrderTotal = CalculateOrderTotal();
             return true;
         }
 
@@ -119,5 +125,6 @@ namespace PRG2_Assignment
             return $"Order ID: {OrderID}, DateTime: {OrderDateTime}, Total: {OrderTotal}, Status: {OrderStatus}, Delivery DateTime: {DeliveryDateTime}, Address: {DeliveryAddress}, Payment Method: {OrderPaymentMethod}, Paid: {OrderPaid}";
 
         }
+    }
 }
         

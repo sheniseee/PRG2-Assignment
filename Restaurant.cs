@@ -1,3 +1,9 @@
+//========================================================== 
+// Student Number : S10273890
+// Student Name : Shenise Lim Em Qing 
+// Partner Name : Chloe Heng Chi Xuan
+//========================================================== 
+
 namespace PRG2_Assignment
 {
     public class Restaurant
@@ -48,38 +54,98 @@ namespace PRG2_Assignment
 
         public void DisplayOrders()
         {
+            if (orders.Count == 0)
+            {
+                Console.WriteLine("No orders available.");
+                return;
+            }
+
+            Console.WriteLine("Orders:");
             foreach (var order in orders)
             {
-                Console.WriteLine(order.ToString());
+                Console.WriteLine($"Order ID: {order.OrderID}");
+                Console.WriteLine($"Customer: {order.OrderDateTime}");
+                Console.WriteLine($"Total: {order.OrderTotal:C}");
+                Console.WriteLine($"Status: {order.OrderStatus}");
+                Console.WriteLine($"Delivery Date/Time: {order.DeliveryDateTime}");
+                Console.WriteLine($"Address: {order.DeliveryAddress}");
+                Console.WriteLine($"Payment Method: {order.OrderPaymentMethod}");
+                Console.WriteLine($"Paid: {order.OrderPaid}");
             }
         }
 
         public void DisplaySpecialOffers()
         {
-            foreach (var offer in specialOffers)
+            if (specialOffers.Count == 0)
             {
-                Console.WriteLine(offer.ToString());
+                Console.WriteLine("No special offers available.");
+            }
+            else
+            {
+                Console.WriteLine("Special Offers:");
+                foreach (var offer in specialOffers)
+                {
+                    Console.WriteLine($"Offer Code: {offer.OfferCode}");
+                    Console.WriteLine($"Description: {offer.OfferDesc}");
+                    Console.WriteLine($"Discount: {offer.DiscountAmount}%");
+                }
             }
         }
 
         public void DisplayMenu()
         {
+            if (menus.Count == 0)
+            {
+                Console.WriteLine("No menu available.");
+                return;
+            }
+
+            Console.WriteLine("Menu Items:");
             foreach (var menu in menus)
             {
-                Console.WriteLine(menu.ToString());
+                Console.WriteLine($"Menu ID: {menu.MenuId}");
+                Console.WriteLine($"Menu Name: {menu.MenuName}");
+                Console.WriteLine("Food Items:");
+                foreach (var item in menu.FoodItems)
+                {
+                    Console.WriteLine($"- {item.FoodItemName}, {item.Description}, Price: {item.Price:C2}");
+                }
             }
-        }
 
-        public void AddMenu(Menu)
+        public void AddMenu(Menu menu)
         {
-            menus.Add(Menu);
+            if (menu == null)
+            {
+                Console.WriteLine("Menu cannot be null.");
+                return;
+            }
+            else
+            {
+                menus.Add(menu);
+                Console.WriteLine($"Menu '{menu.MenuName} added successfully.");
+            }
 
         }
 
         public bool RemoveMenu(Menu menu)
         {
-            menus.Remove(menu);
-            return true;
+            if (menu == null)
+            {
+                Console.WriteLine("Menu cannot be null.");
+                return false;
+            }
+
+            bool result = menus.Remove(menu);
+            if (result)
+            {
+                Console.WriteLine($"Menu '{menu.MenuName}' removed successfully.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine($"Menu '{menu.MenuName}' not found.");
+                return false;
+            }
         }
 
         public override string ToString()

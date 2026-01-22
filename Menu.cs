@@ -1,3 +1,10 @@
+//========================================================== 
+// Student Number : S10273890
+// Student Name : Shenise Lim Em Qing 
+// Partner Name : Chloe Heng Chi Xuan
+//========================================================== 
+
+
 namespace PRG2_Assignment
 {
     public class Menu
@@ -43,6 +50,7 @@ namespace PRG2_Assignment
             if (foodItem != null)
             {
                 foodItems.Add(foodItem);
+                Console.WriteLine($"Food item '{foodItem.FoodItemName}' added to the menu '{MenuName}' successfully.");
             }
             else
             {
@@ -57,9 +65,12 @@ namespace PRG2_Assignment
                 if (foodItems[i].FoodItemId == foodItemId)
                 {
                     foodItems.RemoveAt(i);
+                    Console.WriteLine($"Food item with ID {foodItemId} removed from the menu '{MenuName}' successfully.");
                     return true;
                 }
             }
+            Console.WriteLine("Food item not found.");
+            return false;
         }
 
         public void DisplayFoodItems()
@@ -78,7 +89,7 @@ namespace PRG2_Assignment
             }
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return $"Menu ID: {MenuId}, Menu Name: {MenuName}, Number of Food Items: {foodItems.Count}";
         }
