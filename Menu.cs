@@ -91,7 +91,7 @@ namespace PRG2_Assignment
 
         public override string ToString()
         {
-            return $"Menu ID: {MenuId}, Menu Name: {MenuName}, Number of Food Items: {foodItems.Count}";
+            return $"Menu ID: {MenuId}, Menu Name: {MenuName}, Number of Food Items: {foodItems.Count}.";
         }
     }
 }
