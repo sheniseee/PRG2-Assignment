@@ -23,38 +23,35 @@ namespace PRG2_Assignment
             set { menuName = value; }
         }
 
-        private List<FoodItem> foodItems;
         public List<FoodItem> FoodItems
         {
-            get { return foodItems; }
-            set { foodItems = value; }
+            get; set;
         }
 
-        private Restaurant restaurant;
-        public Restaurant Restaurant
-        {
-            get { return restaurant; }
-            set { restaurant = value; }
-        }
-
-        public Menu(string menuId, string menuName, Restaurant restaurant)
+        public Menu(string menuId, string menuName)
         {
             MenuId = menuId;
             MenuName = menuName;
-            Restaurant = restaurant;
             foodItems = new List<FoodItem>();
         }
 
         public void AddFoodItem(FoodItem foodItem)
         {
-            if (foodItem != null)
+            if (item == null)
             {
-                foodItems.Add(foodItem);
-                Console.WriteLine($"Food item '{foodItem.FoodItemName}' added to the menu '{MenuName}' successfully.");
+                Console.WriteLine("Invalid Input");
+                return;
+            }
+
+            if (FoodItems.Contains(item))
+            {
+                Console.WriteLine("Food item already exists in the menu.");
+                return;
             }
             else
             {
-                Console.WriteLine("Food item cannot be null.");
+                FoodItems.Add(item);
+                Console.WriteLine("Food item added successfully.");
             }
         }
 
@@ -78,6 +75,7 @@ namespace PRG2_Assignment
             if (foodItems.Count == 0)
             {
                 Console.WriteLine("No food items available in the menu.");
+                return;
             }
             else
             {
