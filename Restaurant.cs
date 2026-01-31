@@ -29,27 +29,30 @@ namespace PRG2_Assignment
             set { restaurantEmail = value; }
         }
 
-        private List<Menu> menus;
         public List<Menu> Menus
         {
-            get { return menus; }
-            set { menus = value; }
+            get; set;
         }
 
-        private List<Order> orders;
-        public List<Order> Orders
+        public Queue<Order> OrderQueue
         {
-            get { return orders; }
-            set { orders = value; }
+            get; set;
+        }
+
+        public List<SpecialOffer> SpecialOffers
+        {
+            get; set;
         }
 
         public Restaurant(string restaurantId, string restaurantName, string restaurantEmail)
         {
-            RestaurantId = restaurantId;
+            RestaurantId = restaurantID;
             RestaurantName = restaurantName;
-            RestaurantEmail = restaurantEmail;
-            menus = new List<Menu>();
-            orders = new List<Order>();
+            RestaurantEmail = restauarantEmail;
+
+            Menus = new List<Menu>();
+            OrderQueue = new Queue<Order>();
+            SpecialOffers = new List<SpecialOffer>();
         }
 
         public void DisplayOrders()
@@ -61,7 +64,7 @@ namespace PRG2_Assignment
             }
 
             Console.WriteLine("Orders:");
-            foreach (var order in orders)
+            foreach (var order in OrderQueue)
             {
                 Console.WriteLine($"Order ID: {order.OrderID}");
                 Console.WriteLine($"Customer: {order.OrderDateTime}");
@@ -79,6 +82,7 @@ namespace PRG2_Assignment
             if (specialOffers.Count == 0)
             {
                 Console.WriteLine("No special offers available.");
+                return;
             }
             else
             {
