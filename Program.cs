@@ -11,6 +11,10 @@ class Program
         List<Customer> customers = new List<Customer>();
         List<Order> orders = new List<Order>();
 
+        //Advanced Feature (b)
+        const double DELIVERY_FEE = 5.00;
+        const double GRUBEROO_RATE = 0.30;
+
         while (true)
         {
             Console.WriteLine("===== Gruberoo Food Delivery System ===== ");
@@ -859,5 +863,78 @@ class Program
 
         Console.WriteLine($"Order {targetOrder.OrderID} cancelled. Refund of {targetOrder.OrderTotal:C} processed.");
 
+    }
+
+    //========================================================== =
+    // Student Number : S10273890E
+    // Student Name : Shenise Lim Em Qing
+    // Partner Name : Chloe Heng Chi Xuan
+    //========================================================== =
+    // Advanced Feature B
+
+    static void DisplayTotalOrderAmount()
+    {
+        Console.WriteLine("Display total order amount");
+        Console.WriteLine("==========================");
+
+        double grandTotalDeliveredLessDelivery = 0.0;
+        double grandTotalRefunds = 0.0;
+
+        foreach (Restaurant r in restaurants)
+        {
+            // Delivered totals (less delivery fee per order)
+            double restaurantDeliveredLessDelivery = 0.0;
+
+            foreach (Order o in r.OrderQueue)
+            {
+                if (o.OrderStatus == "Delivered")
+                {
+                    // less delivery fee per order
+                    double amountLessDelivery = o.OrderTotal - DELIVERY_FEE;
+                    if (amountLessDelivery < 0) amountLessDelivery = 0;
+
+                    restaurantDeliveredLessDelivery += amountLessDelivery;
+                }
+            }
+
+            // Refund totals
+            double restaurantRefunds = 0.0;
+
+            foreach (Order refunded in refundStack)
+            {
+                // Finds restaurant that refunded order belongs to
+                bool belongsToThisRestaurant = false;
+
+                foreach (Order o in r.OrderQueue)
+                {
+                    if (o.OrderID == refunded.OrderID)
+                    {
+                        belongsToThisRestaurant = true;
+                        break;
+                    }
+                }
+
+                if (belongsToThisRestaurant)
+                {
+                    restaurantRefundTotal += refunded.OrderTotal;
+                }
+
+                Console.WriteLine($"\nRestaurant: {r.RestaurantName} ({r.RestaurantId})");
+                Console.WriteLine($"Total Delivered Order Amount (less delivery fee): {restaurantDeliveredLessDelivery:C}");
+                Console.WriteLine($"Total Refunds: ${restaurantRefundTotal:C2}");
+
+                // Add to grand total
+                grandTotalDeliveredLessDelivery += restaurantDeliveredLessDelivery;
+                grandTotalRefunds += restaurantRefundTotal;
+
+                //final amount Greberoo earns
+                double finalEarned = grandTotalDeliveredLessDelivery * GRUBEROO_RATE;
+
+                Console.WriteLine($"Total order amount (less delivery fee): {grandTotalDeliveredLessDelivery:C}");
+                Console.WriteLine($"Total refunds: ${grandTotalRefunds:C2}");
+                Console.WriteLine($"Final amount Gruberoo earns (30%): ${finalEarned:C2}");
+
+            }
+        }
     }
 }
