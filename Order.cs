@@ -88,9 +88,10 @@ namespace PRG2_Assignment
         {
             double total = 0;
 
-            foreach (var item in OrderedFoodItems)
+            foreach (OrderedFoodItem item in OrderedFoodItems)
             {
-                total += item.TotalPrice * OrderedFoodItems.Quantity;
+                total += item.CalculateSubtotal();
+
             }
 
             total += 5.00; // Delivery fee
@@ -108,6 +109,7 @@ namespace PRG2_Assignment
             else
             {
                 Console.WriteLine("Cannot add a null food item.");
+                return;
             }
         }
 
@@ -137,6 +139,7 @@ namespace PRG2_Assignment
             if (orderedFoodItems.Count == 0)
             {
                 Console.WriteLine("No food items in the order.");
+                return;
             }
             else
             {
