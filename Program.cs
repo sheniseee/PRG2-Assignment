@@ -24,6 +24,7 @@ class Program
             Console.WriteLine("4.Process an order");
             Console.WriteLine("5.Modify an existing order");
             Console.WriteLine("6.Delete an existing order");
+            Console.WriteLine("7.Display total order amount");
             Console.WriteLine("0.Exit");
 
             Console.Write("Enter your choice: ");
@@ -56,6 +57,10 @@ class Program
             else if (choice == 6)
             {
                 Feature8_DeleteExistingOrder();
+            }
+            else if (choice == "B" || choice == "b")
+            {
+                DisplayTotalOrderAmount();
             }
             else
             {
