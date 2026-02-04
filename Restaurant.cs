@@ -39,6 +39,11 @@ namespace PRG2_Assignment
             get; set;
         }
 
+        public List<Order> Orders
+        {
+            get; set;
+        }
+
         public List<SpecialOffer> SpecialOffers
         {
             get; set;
@@ -46,18 +51,19 @@ namespace PRG2_Assignment
 
         public Restaurant(string restaurantId, string restaurantName, string restaurantEmail)
         {
-            RestaurantId = restaurantID;
+            RestaurantId = restaurantId;
             RestaurantName = restaurantName;
-            RestaurantEmail = restauarantEmail;
+            RestaurantEmail = restaurantEmail;
 
             Menus = new List<Menu>();
             OrderQueue = new Queue<Order>();
+            Orders = new List<Order>();
             SpecialOffers = new List<SpecialOffer>();
         }
 
         public void DisplayOrders()
         {
-            if (orders.Count == 0)
+            if (OrderQueue.Count == 0)
             {
                 Console.WriteLine("No orders available.");
                 return;
@@ -79,7 +85,7 @@ namespace PRG2_Assignment
 
         public void DisplaySpecialOffers()
         {
-            if (specialOffers.Count == 0)
+            if (SpecialOffers.Count == 0)
             {
                 Console.WriteLine("No special offers available.");
                 return;
@@ -87,34 +93,35 @@ namespace PRG2_Assignment
             else
             {
                 Console.WriteLine("Special Offers:");
-                foreach (var offer in specialOffers)
+                foreach (var offer in SpecialOffers)
                 {
                     Console.WriteLine($"Offer Code: {offer.OfferCode}");
                     Console.WriteLine($"Description: {offer.OfferDesc}");
-                    Console.WriteLine($"Discount: {offer.DiscountAmount}%");
+                    Console.WriteLine($"Discount: {offer.Discount}%");
                 }
             }
         }
 
         public void DisplayMenu()
         {
-            if (menus.Count == 0)
+            if (Menus.Count == 0)
             {
                 Console.WriteLine("No menu available.");
                 return;
             }
 
             Console.WriteLine("Menu Items:");
-            foreach (var menu in menus)
+            foreach (var menu in Menus)
             {
                 Console.WriteLine($"Menu ID: {menu.MenuId}");
                 Console.WriteLine($"Menu Name: {menu.MenuName}");
                 Console.WriteLine("Food Items:");
                 foreach (var item in menu.FoodItems)
                 {
-                    Console.WriteLine($"- {item.FoodItemName}, {item.Description}, Price: {item.Price:C2}");
+                    Console.WriteLine($"- {item.ItemName}, {item.ItemDesc}, Price: {item.ItemPrice:C2}");
                 }
             }
+        }
 
         public void AddMenu(Menu menu)
         {
@@ -125,8 +132,8 @@ namespace PRG2_Assignment
             }
             else
             {
-                menus.Add(menu);
-                Console.WriteLine($"Menu '{menu.MenuName} added successfully.");
+                Menus.Add(menu);
+                Console.WriteLine($"Menu '{menu.MenuName}' added successfully.");
             }
 
         }
@@ -139,7 +146,7 @@ namespace PRG2_Assignment
                 return false;
             }
 
-            bool result = menus.Remove(menu);
+            bool result = Menus.Remove(menu);
             if (result)
             {
                 Console.WriteLine($"Menu '{menu.MenuName}' removed successfully.");
