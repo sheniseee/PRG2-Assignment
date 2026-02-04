@@ -5,15 +5,18 @@ using PRG2-Assignment;
 
 class Program
 {
+    static List<Restaurant> restaurants = new List<Restaurant>();
+    static List<Customer> customers = new List<Customer>();
+    static List<Order> orders = new List<Order>();
+
+    //Advanced Feature (b) constants
+    const double DELIVERY_FEE = 5.00;
+    const double GRUBEROO_RATE = 0.30;
+
     static void Main()
     {
-        List<Restaurant> restaurants = new List<Restaurant>();
-        List<Customer> customers = new List<Customer>();
-        List<Order> orders = new List<Order>();
-
-        //Advanced Feature (b)
-        const double DELIVERY_FEE = 5.00;
-        const double GRUBEROO_RATE = 0.30;
+        LoadCustomersAndOrders();
+        LoadRestaurantsAndFoodItems();
 
         while (true)
         {
@@ -28,7 +31,14 @@ class Program
             Console.WriteLine("0.Exit");
 
             Console.Write("Enter your choice: ");
-            int choice = Convert.ToInt32(Console.ReadLine());
+            string input = Console.ReadLine();
+
+            //if input is not a int
+            if (!int.TryParse(input, out int choice))
+            {
+                Console.WriteLine("Invalid input. Please enter a number.");
+                continue;
+            }
 
             if (choice == 0)
             {
@@ -58,7 +68,7 @@ class Program
             {
                 Feature8_DeleteExistingOrder();
             }
-            else if (choice == "B" || choice == "b")
+            else if (choice == 7)
             {
                 DisplayTotalOrderAmount();
             }
@@ -68,13 +78,6 @@ class Program
             }
 
         }
-
-        // Calls for feature 1 (Loading of restaurants and food items files)
-        LoadRestaurantsAndFoodItems();
-
-        // Calls for feature 2 (Loading of customers and orders files)
-        LoadCustomersAndOrders(customers, orders);
-
 
     }
     //========================================================== =
@@ -87,6 +90,12 @@ class Program
     {
         //restaurants
         string restaurantsFile = "restaurants.csv";
+
+        if (!File.Exists(restaurantsFile))
+        {
+            Console.WriteLine($"Warning: {restaurantsFile} not found.");
+            return;
+        }
 
         using (StreamReader sr = new StreamReader(restaurantsFile))
         {
@@ -112,6 +121,12 @@ class Program
         //food items
         string foodItemsFile = "fooditems.csv";
 
+        if (!File.Exists(foodItemsFile))
+        {
+            Console.WriteLine($"Warning: {foodItemsFile} not found.");
+            return;
+        }
+
         using (StreamReader sr = new StreamReader(foodItemsFile))
         {
             string header = sr.ReadLine();
@@ -119,13 +134,20 @@ class Program
             string line;
             while ((line = sr.ReadLine()) != null)
             {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+
                 string[] parts = line.Split(',');
                 if (parts.Length >= 4)
                 {
-                    string restaurantId = parts[0];
-                    string itemName = parts[1];
-                    string itemDesc = parts[2];
-                    double itemPrice = Convert.ToDouble(parts[3]);
+                    string restaurantId = parts[0].Trim();
+                    string itemName = parts[1].Trim();
+                    string itemDesc = parts[2].Trim();
+
+                    //parse price, but skip if invalid
+                    if (!double.TryParse(parts[3].Trim(), out double itemPrice))
+                    {
+                        continue;
+                    }
 
                     FoodItem food = new FoodItem(itemName, itemDesc, itemPrice, "");
 
@@ -247,9 +269,8 @@ class Program
     {
         Console.WriteLine("All Orders ");
         Console.WriteLine("===========");
-        Console.WriteLine("Order ID   Customer      Restaurant       Delivery Date/Time   Amount    Status  ");
-        Console.WriteLine("--------   ----------    -------------    ------------------   ------    --------- ");
-
+        Console.WriteLine("{0,-10} {1,-15} {2,-15} {3,-20} {4,-10} {5,-10}",
+            "Order ID", "Customer", "Restaurant", "Delivery Date/Time", "Amount", "Status");
         foreach (Restaurant r in restaurants)
         {
             foreach (Order order in r.OrderQueue)
@@ -265,13 +286,13 @@ class Program
                     }
                 }
 
-                Console.WriteLine(
-                    $"{order.OrderID,-10} " +
-                    $"{r.RestaurantName,-15} " +
-                    $"{order.DeliveryDateTime:dd/MM/yyyy HH:mm}   " +
-                    $"{order.OrderTotal,8:C}   " +
-                    $"{order.OrderStatus,-10}"
-                );
+                Console.WriteLine("{0,-10} {1,-15} {2,-15} {3,-20} {4,-10:C} {5,-10}",
+                    order.OrderID,
+                    customerName,
+                    r.RestaurantName,
+                    order.DeliveryDateTime.ToString("dd/MM/yyyy HH:mm"),
+                    order.OrderTotal,
+                    order.OrderStatus);
             }
         }
     }
@@ -559,6 +580,17 @@ class Program
         {
             Order order = selectedRestaurant.OrderQueue.Dequeue();
 
+            //find customer name
+            string customerName = "Unknown";
+            foreach (Customer c in customers)
+            {
+                if (c.Orders.Contains(order))
+                {
+                    customerName = c.CustomerName;
+                    break;
+                }
+            }
+
             Console.WriteLine($"Order {order.OrderID}:");
             Console.WriteLine($"Customer: {customerName}");
 
@@ -589,6 +621,7 @@ class Program
                 {
                     Console.WriteLine("Cannot confirm. Order must be Pending.");
                 }
+                selectedRestaurant.OrderQueue.Enqueue(order);
             }
             else if (action == "R")
             {
@@ -603,6 +636,7 @@ class Program
                 else
                 {
                     Console.WriteLine("Cannot reject. Order must be Pending.");
+                    selectedRestaurant.OrderQueue.Enqueue(order);
                 }
             }
             else if (action == "D")
@@ -615,6 +649,7 @@ class Program
                 else
                 {
                     Console.WriteLine("Cannot deliver. Order must be Preparing.");
+                    selectedRestaurant.OrderQueue.Enqueue(order);
                 }
             }
             else if (action == "S")
@@ -787,7 +822,7 @@ class Program
         Customer selectedCustomer = null;
         foreach (Customer c in customers)
         {
-            if (c.EmailAddress == customerEmail)
+            if (c.EmailAddress.ToLower() == customerEmail.ToLower())
             {
                 selectedCustomer = c;
                 break;
@@ -841,7 +876,7 @@ class Program
             return;
         }
 
-        Console.WriteLine($"Customer: {selectedCustomer.CustomerName}");
+        Console.WriteLine($"\nCustomer: {selectedCustomer.CustomerName}");
 
         Console.WriteLine("Ordered Items:");
         for (int i = 0; i < targetOrder.OrderedFoodItems.Count; i++)
@@ -879,7 +914,7 @@ class Program
 
     static void DisplayTotalOrderAmount()
     {
-        Console.WriteLine("Display total order amount");
+        Console.WriteLine("\nDisplay total order amount");
         Console.WriteLine("==========================");
 
         double grandTotalDeliveredLessDelivery = 0.0;
@@ -907,39 +942,30 @@ class Program
 
             foreach (Order refunded in refundStack)
             {
-                // Finds restaurant that refunded order belongs to
-                bool belongsToThisRestaurant = false;
-
-                foreach (Order o in r.OrderQueue)
-                {
-                    if (o.OrderID == refunded.OrderID)
-                    {
-                        belongsToThisRestaurant = true;
-                        break;
-                    }
-                }
+                // Find if refunded order belongs to this restaurant
+                bool belongsToThisRestaurant = r.Orders.Contains(refunded);
 
                 if (belongsToThisRestaurant)
                 {
                     restaurantRefundTotal += refunded.OrderTotal;
                 }
-
-                Console.WriteLine($"\nRestaurant: {r.RestaurantName} ({r.RestaurantId})");
-                Console.WriteLine($"Total Delivered Order Amount (less delivery fee): {restaurantDeliveredLessDelivery:C}");
-                Console.WriteLine($"Total Refunds: ${restaurantRefundTotal:C2}");
-
-                // Add to grand total
-                grandTotalDeliveredLessDelivery += restaurantDeliveredLessDelivery;
-                grandTotalRefunds += restaurantRefundTotal;
-
-                //final amount Greberoo earns
-                double finalEarned = grandTotalDeliveredLessDelivery * GRUBEROO_RATE;
-
-                Console.WriteLine($"Total order amount (less delivery fee): {grandTotalDeliveredLessDelivery:C}");
-                Console.WriteLine($"Total refunds: ${grandTotalRefunds:C2}");
-                Console.WriteLine($"Final amount Gruberoo earns (30%): ${finalEarned:C2}");
-
             }
+
+            Console.WriteLine($"\nRestaurant: {r.RestaurantName} ({r.RestaurantId})");
+            Console.WriteLine($"  Total Delivered Order Amount (less delivery fee): {restaurantDeliveredLessDelivery:C}");
+            Console.WriteLine($"  Total Refunds: {restaurantRefundTotal:C}");
+
+            // Add to grand total
+            grandTotalDeliveredLessDelivery += restaurantDeliveredLessDelivery;
+            grandTotalRefunds += restaurantRefundTotal;
+
+            //final amount Greberoo earns
+            double finalEarned = grandTotalDeliveredLessDelivery * GRUBEROO_RATE;
+
+            Console.WriteLine("\n--- Grand Total ---");
+            Console.WriteLine($"Total order amount (less delivery fee): {grandTotalDeliveredLessDelivery:C}");
+            Console.WriteLine($"Total refunds: {grandTotalRefunds:C}");
+            Console.WriteLine($"Final amount Gruberoo earns (30%): {finalEarned:C}");
         }
     }
 }
