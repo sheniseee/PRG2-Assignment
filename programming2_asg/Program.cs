@@ -1,7 +1,10 @@
+﻿// See https://aka.ms/new-console-template for more information
+using PRG2_Assignment;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
-using PRG2-Assignment;
+
 
 class Program
 {

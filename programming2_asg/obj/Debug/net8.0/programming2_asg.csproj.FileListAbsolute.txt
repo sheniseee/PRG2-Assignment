@@ -1,0 +1,15 @@
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\bin\Debug\net8.0\programming2_asg.exe
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\bin\Debug\net8.0\programming2_asg.deps.json
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\bin\Debug\net8.0\programming2_asg.runtimeconfig.json
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\bin\Debug\net8.0\programming2_asg.dll
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\bin\Debug\net8.0\programming2_asg.pdb
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.AssemblyInfoInputs.cache
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.AssemblyInfo.cs
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.csproj.CoreCompileInputs.cache
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.sourcelink.json
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.dll
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\refint\programming2_asg.dll
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.pdb
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\programming2_asg.genruntimeconfig.cache
+C:\Users\Sheni\OneDrive\Desktop\PRG2-ASG\programming2_asg\obj\Debug\net8.0\ref\programming2_asg.dll
