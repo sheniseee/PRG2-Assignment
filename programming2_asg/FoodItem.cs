@@ -11,7 +11,7 @@ namespace PRG2_Assignment
     public class FoodItem
     {
         private string itemName;
-        public string ItemName;
+        public string ItemName
 		{
             get { return itemName; }
             set { itemName = value; }
@@ -27,7 +27,7 @@ namespace PRG2_Assignment
         private double itemPrice;
         public double ItemPrice
         {
-            get { return itemDesc; }
+            get { return itemPrice; }
             set { itemPrice = value; }
         }
 
@@ -51,9 +51,9 @@ namespace PRG2_Assignment
             Customise = customise;
         }
 
-        public override string Tostring()
+        public override string ToString()
         {
-            return $"{ItemName} - {ItemDesc} (${ItemPrice:F2}) [{Cuisine}]";
+            return $"{ItemName} - {ItemDesc} (${ItemPrice:F2}) [{Customise}]";
         }
 
     }

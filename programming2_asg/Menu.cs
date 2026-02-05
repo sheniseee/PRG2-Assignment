@@ -32,25 +32,25 @@ namespace PRG2_Assignment
         {
             MenuId = menuId;
             MenuName = menuName;
-            foodItems = new List<FoodItem>();
+            FoodItems = new List<FoodItem>();
         }
 
         public void AddFoodItem(FoodItem foodItem)
         {
-            if (item == null)
+            if (foodItem == null)
             {
                 Console.WriteLine("Invalid Input");
                 return;
             }
 
-            if (FoodItems.Contains(item))
+            if (FoodItems.Contains(foodItem))
             {
                 Console.WriteLine("Food item already exists in the menu.");
                 return;
             }
             else
             {
-                FoodItems.Add(item);
+                FoodItems.Add(foodItem);
                 Console.WriteLine("Food item added successfully.");
             }
         }
