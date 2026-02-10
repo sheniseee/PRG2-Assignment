@@ -12,7 +12,7 @@ namespace PRG2_Assignment
     {
         private string itemName;
         public string ItemName
-		{
+        {
             get { return itemName; }
             set { itemName = value; }
         }
@@ -53,7 +53,7 @@ namespace PRG2_Assignment
 
         public override string ToString()
         {
-            return $"{ItemName} - {ItemDesc} (${ItemPrice:F2}) [{Customise}]";
+            return $"{ItemName} - {ItemDesc} (${ItemPrice:F2}) Customise:{customise}";
         }
 
     }

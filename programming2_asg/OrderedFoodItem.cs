@@ -7,7 +7,7 @@
 using PRG2_Assignment;
 using System;
 
-namespace PRGFINALS_Chloe
+namespace PRG2_Assignment
 {
     public class OrderedFoodItem
     {

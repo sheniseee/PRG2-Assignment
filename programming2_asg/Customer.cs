@@ -75,7 +75,7 @@ namespace PRG2_Assignment
             {
                 foreach (Order order in Orders)
                 {
-                    Console.WriteLine($"Order ID: {order.OrderID}, Total: ${order.OrderTotal:F2}");
+                    Console.WriteLine($"Order ID: {order.OrderId}, Total: ${order.OrderTotal:F2}");
                 }
             }
         }
