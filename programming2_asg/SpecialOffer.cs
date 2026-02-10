@@ -1,12 +1,12 @@
-﻿//========================================================== =
+﻿//========================================================== 
 // Student Number : S10272203K
 // Student Name : Chloe Heng Chi Xuan
 // Partner Name : Shenise Lim Em Qing 
-//========================================================== =
+//========================================================== 
 
 using System;
 
-namespace PRG2_Assignment
+namespace PRGFINALS_Chloe
 {
     public class SpecialOffer
     {
@@ -20,7 +20,7 @@ namespace PRG2_Assignment
         private string offerDesc;
         public string OfferDesc
         {
-            get { return OfferDesc; }
+            get { return offerDesc; }
             set { offerDesc = value; }
         }
 
@@ -33,7 +33,9 @@ namespace PRG2_Assignment
 
         public SpecialOffer()
         {
-
+            OfferCode = "";
+            OfferDesc = "";
+            Discount = 0;
         }
 
         public SpecialOffer(string offerCode, string offerDesc, double discount)
@@ -43,10 +45,12 @@ namespace PRG2_Assignment
             Discount = discount;
         }
 
-        public override string Tostring()
+        public override string ToString()
         {
             return $"Offer Code: {offerCode}, Description: {offerDesc}, Discount: {discount}%";
         }
     }
 }
+
+
 
