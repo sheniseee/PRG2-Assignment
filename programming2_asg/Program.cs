@@ -32,6 +32,7 @@ class Program
             Console.WriteLine("3. Create a new order");
             Console.WriteLine("4. Process an order");
             Console.WriteLine("5. Modify an existing order");
+            Console.WriteLine("6. Delete an existing order");
             Console.WriteLine("7. Display total order amount");
             Console.WriteLine("8. Bulk process pending orders for today");
             Console.WriteLine("9. Manage favourite orders");
