@@ -104,7 +104,8 @@ namespace PRG2_Assignment
             {
                 orderedFoodItems.Add(foodItem);
                 OrderTotal = CalculateOrderTotal(); // Recalculate total after adding item
-                Console.WriteLine($"Food item '{foodItem.FoodItemName}' added to the order.");
+                // FIXED: Access ItemName through FoodItem property
+                Console.WriteLine($"Food item '{foodItem.FoodItem.ItemName}' added to the order.");
             }
             else
             {
@@ -124,8 +125,8 @@ namespace PRG2_Assignment
             bool result = orderedFoodItems.Remove(foodItem);
             if (result)
             {
-                OrderTotal = CalculateOrderTotal(); 
-                Console.WriteLine($"Food item '{foodItem.FoodItemName}' removed from the order.");
+                OrderTotal = CalculateOrderTotal();
+                Console.WriteLine($"Food item '{foodItem.FoodItem.ItemName}' removed from the order.");
             }
             else
             {
@@ -146,7 +147,7 @@ namespace PRG2_Assignment
                 Console.WriteLine("Ordered Food Items:");
                 foreach (var foodItem in OrderedFoodItems)
                 {
-                    Console.WriteLine($"ID: {foodItem.FoodItemId}, Name: {foodItem.FoodItemName}, Quantity: {foodItem.Quantity}, Total Price: {foodItem.TotalPrice:C}");
+                    Console.WriteLine($"Name: {foodItem.FoodItem.ItemName}, Quantity: {foodItem.QtyOrdered}, Subtotal: {foodItem.Subtotal:C}");
                 }
             }
         }
@@ -158,4 +159,3 @@ namespace PRG2_Assignment
         }
     }
 }
-        
