@@ -23,7 +23,7 @@ class Program
     static void Main()
     {
         LoadRestaurantsAndFoodItems();
-        LoadCustomersAndOrders();
+        LoadCustomersAndOrders(customers, orders, restaurants);
 
         while (true)
         {
@@ -33,9 +33,10 @@ class Program
             Console.WriteLine("3.Create a new order");
             Console.WriteLine("4.Process an order");
             Console.WriteLine("5.Modify an existing order");
-            Console.WriteLine("6.Delete an existing order");
-            Console.WriteLine("7.Display total order amount");
-            Console.WriteLine("0.Exit");
+            Console.WriteLine("7. Display total order amount");
+            Console.WriteLine("8. Bulk process pending orders for today");
+            Console.WriteLine("9. Manage favourite orders");
+            Console.WriteLine("10. Display favourite orders statistics");
 
             Console.Write("Enter your choice: ");
             string input = Console.ReadLine();
@@ -53,7 +54,7 @@ class Program
             }
             else if (choice == 1)
             {
-                Feature3_ListAllRestaurantsAndMenuItems(List < Restaurant > restaurants);
+                Feature3_ListAllRestaurantsAndMenuItems(restaurants);
             }
             else if (choice == 2)
             {
@@ -61,7 +62,7 @@ class Program
             }
             else if (choice == 3)
             {
-                Feature5_CreateNewOrder(List < Customer > customers, List < Restaurant > restaurants, List < Order > orders);
+                Feature5_CreateNewOrder(customers, restaurants, orders);
             }
             else if (choice == 4)
             {
@@ -69,7 +70,7 @@ class Program
             }
             else if (choice == 5)
             {
-                Feature7_ModifyExistingOrder(List < Customer > customers, List < Restaurant > restaurants, List < Order > orders);
+                Feature7_ModifyExistingOrder(customers, restaurants, orders);
             }
             else if (choice == 6)
             {
@@ -77,7 +78,7 @@ class Program
             }
             else if (choice == 7)
             {
-                AdvancedA_BulkProcessPendingOrdersForToday();
+                AdvancedA_BulkProcessPendingOrdersForToday(restaurants);
             }
             else if (choice == 8)
             {
@@ -110,12 +111,6 @@ class Program
         //restaurants
         string restaurantsFile = "restaurants.csv";
 
-        if (!File.Exists(restaurantsFile))
-        {
-            Console.WriteLine($"Warning: {restaurantsFile} not found.");
-            return;
-        }
-
         using (StreamReader sr = new StreamReader(restaurantsFile))
         {
             string header = sr.ReadLine();
@@ -139,12 +134,6 @@ class Program
 
         //food items
         string foodItemsFile = "fooditems.csv";
-
-        if (!File.Exists(foodItemsFile))
-        {
-            Console.WriteLine($"Warning: {foodItemsFile} not found.");
-            return;
-        }
 
         using (StreamReader sr = new StreamReader(foodItemsFile))
         {
@@ -420,8 +409,6 @@ class Program
 
 
 
-
-
     //========================================================== =
     // Student Number : S10272203K
     // Student Name : Chloe Heng Chi Xuan
@@ -533,7 +520,7 @@ class Program
 
             FoodItem chosen = availableFood[itemNo - 1];
 
-            // this si to copy menu item so that we dont modify the restaurants original menu data
+            // this is to copy menu item so that we dont modify the restaurants original menu data
             FoodItem copy = new FoodItem(chosen.ItemName, chosen.ItemDesc, chosen.ItemPrice, chosen.Customise);
 
             selectedItems.Add(new OrderedFoodItem(qty, copy));
@@ -1349,11 +1336,11 @@ class Program
     }
 
     //==========================================================
-    // BONUS ADVANCED FEATURE C: FAVOURITE ORDERS
     // Student Number : S10273890E
     // Student Name : Shenise Lim Em Qing
     // Partner Name : Chloe Heng Chi Xuan
     //==========================================================
+    // BONUS FEATURE: FAVOURITE ORDERS
 
     static void ManageFavouriteOrders()
     {
