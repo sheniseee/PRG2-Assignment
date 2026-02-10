@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using PRG2_Assignment;
+﻿using PRG2_Assignment;
 
 using System;
 using System.Collections.Generic;
@@ -106,6 +105,7 @@ class Program
     // Partner Name : Chloe Heng Chi Xuan
     //========================================================== =
     // Feature 1
+
     static void LoadRestaurantsAndFoodItems()
     {
         //restaurants
