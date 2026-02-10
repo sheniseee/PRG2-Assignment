@@ -6,7 +6,7 @@
 
 using System;
 
-namespace PRGFINALS_Chloe
+namespace PRG2_Assignment
 {
     public class SpecialOffer
     {
