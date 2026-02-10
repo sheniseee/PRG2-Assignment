@@ -4,9 +4,10 @@
 // Partner Name : Shenise Lim Em Qing 
 //========================================================== 
 
+using PRG2_Assignment;
 using System;
 
-namespace PRG2_Assignment
+namespace PRGFINALS_Chloe
 {
     public class OrderedFoodItem
     {
@@ -38,24 +39,24 @@ namespace PRG2_Assignment
             CalculateSubtotal();
         }
 
-        public OrderedFoodItem(int qtyOrdered, double subtotal, FoodItem fooditem)
+        public OrderedFoodItem(int qtyOrdered, FoodItem fooditem)
         {
             QtyOrdered = qtyOrdered;
-            Subtotal = subtotal;
             FoodItem = fooditem;
             CalculateSubtotal();
         }
 
         public double CalculateSubtotal()
         {
-            if (foodItem != null && foodItem.ItemPrice > 0)
-            {
-                Subtotal = qtyOrdered * foodItem.ItemPrice;
-            }
-            else
+            if (FoodItem == null)
             {
                 Subtotal = 0;
             }
+            else
+            {
+                Subtotal = QtyOrdered * FoodItem.ItemPrice;
+            }
+
             return Subtotal;
         }
 
