@@ -27,11 +27,11 @@ class Program
         while (true)
         {
             Console.WriteLine("===== Gruberoo Food Delivery System ===== ");
-            Console.WriteLine("1.List all restaurants and menu items");
-            Console.WriteLine("2.List all orders");
-            Console.WriteLine("3.Create a new order");
-            Console.WriteLine("4.Process an order");
-            Console.WriteLine("5.Modify an existing order");
+            Console.WriteLine("1. List all restaurants and menu items");
+            Console.WriteLine("2. List all orders");
+            Console.WriteLine("3. Create a new order");
+            Console.WriteLine("4. Process an order");
+            Console.WriteLine("5. Modify an existing order");
             Console.WriteLine("7. Display total order amount");
             Console.WriteLine("8. Bulk process pending orders for today");
             Console.WriteLine("9. Manage favourite orders");
