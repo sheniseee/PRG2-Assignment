@@ -23,10 +23,7 @@ namespace PRG2_Assignment
             set { menuName = value; }
         }
 
-        public List<FoodItem> FoodItems
-        {
-            get; set;
-        }
+        public List<FoodItem> FoodItems { get; set; }
 
         public Menu(string menuId, string menuName)
         {
@@ -57,11 +54,11 @@ namespace PRG2_Assignment
 
         public bool RemoveFoodItem(int foodItemId)
         {
-            if (int i = 0; i < foodItems.Count; i++)
+            for (int i = 0; i < FoodItems.Count; i++) // Use 'FoodItems' and correct the loop logic
             {
-                if (foodItems[i].FoodItemId == foodItemId)
+                if (FoodItems[i].FoodItemId == foodItemId)
                 {
-                    foodItems.RemoveAt(i);
+                    FoodItems.RemoveAt(i);
                     Console.WriteLine($"Food item with ID {foodItemId} removed from the menu '{MenuName}' successfully.");
                     return true;
                 }
@@ -72,7 +69,7 @@ namespace PRG2_Assignment
 
         public void DisplayFoodItems()
         {
-            if (foodItems.Count == 0)
+            if (FoodItems.Count == 0)
             {
                 Console.WriteLine("No food items available in the menu.");
                 return;
@@ -80,7 +77,7 @@ namespace PRG2_Assignment
             else
             {
                 Console.WriteLine("Food items in the menu:");
-                foreach (var item in foodItems)
+                foreach (var item in FoodItems)
                 {
                     Console.WriteLine($"ID: {item.FoodItemId}, Name: {item.FoodItemName}, Price: {item.Price:C}");
                 }
@@ -89,7 +86,7 @@ namespace PRG2_Assignment
 
         public override string ToString()
         {
-            return $"Menu ID: {MenuId}, Menu Name: {MenuName}, Number of Food Items: {foodItems.Count}.";
+            return $"Menu ID: {MenuId}, Menu Name: {MenuName}, Number of Food Items: {FoodItems.Count}.";
         }
     }
 }
