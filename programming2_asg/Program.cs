@@ -78,11 +78,11 @@ class Program
             }
             else if (choice == 7)
             {
-                AdvancedA_BulkProcessPendingOrdersForToday(restaurants);
+                DisplayTotalOrderAmount();
             }
             else if (choice == 8)
             {
-                DisplayTotalOrderAmount();
+                AdvancedA_BulkProcessPendingOrdersForToday(restaurants);
             }
             else if (choice == 9)
             {
@@ -1390,11 +1390,48 @@ class Program
             }
 
             Console.WriteLine("\nYour Orders:");
+            Console.WriteLine("========================================");
+
             foreach (Order o in selectedCustomer.Orders)
             {
                 string isFavourite = customerFavouriteOrders[selectedCustomer.EmailAddress].Contains(o.OrderID) ? " [FAVOURITE]" : "";
-                Console.WriteLine($"Order ID: {o.OrderID} - Status: {o.OrderStatus} - Total: ${o.OrderTotal:F2}{isFavourite}");
+                // Find restaurant
+                string restaurantName = "Unknown";
+                foreach (Restaurant r in restaurants)
+                {
+                    if (r.Orders.Contains(o))
+                    {
+                        restaurantName = r.RestaurantName;
+                        break;
+                    }
+                }
+
+                Console.WriteLine($"\nOrder ID: {o.OrderID}{isFavourite}");
+                Console.WriteLine($"Restaurant: {restaurantName}");
+                Console.WriteLine($"Order Date: {o.OrderDateTime.ToString("dd/MM/yyyy HH:mm")}");
+                Console.WriteLine($"Status: {o.OrderStatus}");
+                Console.WriteLine($"Total: ${o.OrderTotal:F2}");
+                Console.WriteLine("Ordered Items:");
+
+                int itemNum = 1;
+                foreach (OrderedFoodItem item in o.OrderedFoodItems)
+                {
+                    Console.WriteLine($"  {itemNum}. {item.FoodItem.ItemName}");
+                    Console.WriteLine($"     Description: {item.FoodItem.ItemDesc}");
+                    Console.WriteLine($"     Quantity: {item.QtyOrdered}");
+                    Console.WriteLine($"     Unit Price: ${item.FoodItem.ItemPrice:F2}");
+                    Console.WriteLine($"     Subtotal: ${(item.FoodItem.ItemPrice * item.QtyOrdered):F2}");
+                    if (!string.IsNullOrEmpty(item.FoodItem.Customise))
+                    {
+                        Console.WriteLine($"     Customization: {item.FoodItem.Customise}");
+                    }
+                    itemNum++;
+                }
+
             }
+
+            Console.WriteLine("========================================");
+
 
             Console.Write("\nEnter Order ID to mark as favourite: ");
             if (!int.TryParse(Console.ReadLine(), out int orderId))
@@ -1441,6 +1478,8 @@ class Program
             }
 
             Console.WriteLine($"\nYou have {favourites.Count} favourite order(s):");
+            Console.WriteLine("========================================");
+
             foreach (int favOrderId in favourites)
             {
                 Order favOrder = null;
@@ -1468,13 +1507,28 @@ class Program
 
                     Console.WriteLine($"\nOrder ID: {favOrder.OrderID}");
                     Console.WriteLine($"Restaurant: {restaurantName}");
+                    Console.WriteLine($"Order Date: {favOrder.OrderDateTime.ToString("dd/MM/yyyy HH:mm")}");
+                    Console.WriteLine($"Delivery Address: {favOrder.DeliveryAddress}");
                     Console.WriteLine($"Status: {favOrder.OrderStatus}");
                     Console.WriteLine($"Total: ${favOrder.OrderTotal:F2}");
-                    Console.WriteLine("Items:");
+                    Console.WriteLine("Ordered Items:");
+
+                    int itemNum = 1;
                     foreach (OrderedFoodItem item in favOrder.OrderedFoodItems)
                     {
-                        Console.WriteLine($"  - {item.FoodItem.ItemName} x{item.QtyOrdered}");
+                        Console.WriteLine($"  {itemNum}. {item.FoodItem.ItemName}");
+                        Console.WriteLine($"     Description: {item.FoodItem.ItemDesc}");
+                        Console.WriteLine($"     Quantity: {item.QtyOrdered}");
+                        Console.WriteLine($"     Unit Price: ${item.FoodItem.ItemPrice:F2}");
+                        Console.WriteLine($"     Subtotal: ${(item.FoodItem.ItemPrice * item.QtyOrdered):F2}");
+                        if (!string.IsNullOrEmpty(item.FoodItem.Customise))
+                        {
+                            Console.WriteLine($"     Customization: {item.FoodItem.Customise}");
+                        }
+                        itemNum++;
                     }
+                    Console.WriteLine("----------------------------------------");
+
                 }
             }
         }
@@ -1490,77 +1544,129 @@ class Program
             }
 
             Console.WriteLine("\nYour Favourite Orders:");
+            Console.WriteLine("========================================");
+
             foreach (int favOrderId in favourites)
             {
-                Console.WriteLine($"Order ID: {favOrderId}");
-            }
+                Order favOrder = null;
+                foreach (Order o in selectedCustomer.Orders)
+                {
+                    if (o.OrderID == favOrderId)
+                    {
+                        favOrder = o;
+                        break;
+                    }
+                }
 
-            Console.Write("\nEnter Order ID to remove from favourites: ");
-            if (!int.TryParse(Console.ReadLine(), out int orderId))
-            {
-                Console.WriteLine("Invalid Order ID.");
-                return;
-            }
+                if (favOrder != null)
+                {
+                    // Find restaurant
+                    string restaurantName = "Unknown";
+                    foreach (Restaurant r in restaurants)
+                    {
+                        if (r.Orders.Contains(favOrder))
+                        {
+                            restaurantName = r.RestaurantName;
+                            break;
+                        }
+                    }
 
-            if (favourites.Remove(orderId))
-            {
-                Console.WriteLine($"Order {orderId} removed from favourites.");
-            }
-            else
-            {
-                Console.WriteLine("Order not found in favourites.");
+                    Console.WriteLine($"\nOrder ID: {favOrder.OrderID}");
+                    Console.WriteLine($"Restaurant: {restaurantName}");
+                    Console.WriteLine($"Order Date: {favOrder.OrderDateTime.ToString("dd/MM/yyyy HH:mm")}");
+                    Console.WriteLine($"Delivery Address: {favOrder.DeliveryAddress}");
+                    Console.WriteLine($"Status: {favOrder.OrderStatus}");
+                    Console.WriteLine($"Total: ${favOrder.OrderTotal:F2}");
+                    Console.WriteLine("Ordered Items:");
+
+                    int itemNum = 1;
+                    foreach (OrderedFoodItem item in favOrder.OrderedFoodItems)
+                    {
+                        Console.WriteLine($"  {itemNum}. {item.FoodItem.ItemName}");
+                        Console.WriteLine($"     Description: {item.FoodItem.ItemDesc}");
+                        Console.WriteLine($"     Quantity: {item.QtyOrdered}");
+                        Console.WriteLine($"     Unit Price: ${item.FoodItem.ItemPrice:F2}");
+                        Console.WriteLine($"     Subtotal: ${(item.FoodItem.ItemPrice * item.QtyOrdered):F2}");
+                        if (!string.IsNullOrEmpty(item.FoodItem.Customise))
+                        {
+                            Console.WriteLine($"     Customization: {item.FoodItem.Customise}");
+                        }
+                        itemNum++;
+                    }
+                    Console.WriteLine("----------------------------------------");
+                }
+
+                Console.Write("\nEnter Order ID to remove from favourites: ");
+                if (!int.TryParse(Console.ReadLine(), out int orderId))
+                {
+                    Console.WriteLine("Invalid Order ID.");
+                    return;
+                }
+
+                if (favourites.Remove(orderId))
+                {
+                    Console.WriteLine($"Order {orderId} removed from favourites.");
+                }
+                else
+                {
+                    Console.WriteLine("Order not found in favourites.");
+                }
             }
         }
         else
         {
             Console.WriteLine("Invalid choice.");
         }
-    }
+        }
 
-    static void DisplayFavouriteOrdersStatistics()
-    {
-        Console.WriteLine("\n========================================");
-        Console.WriteLine("Favourite Orders Statistics");
-        Console.WriteLine("========================================");
-
-        int totalFavouriteOrders = 0;
-        double totalAmountFromFavourites = 0.0;
-        Dictionary<string, int> restaurantFavouriteCount = new Dictionary<string, int>();
-
-        // Process each customer
-        foreach (var customerEntry in customerFavouriteOrders)
+        static void DisplayFavouriteOrdersStatistics()
         {
-            string customerEmail = customerEntry.Key;
-            List<int> favouriteOrderIds = customerEntry.Value;
+            Console.WriteLine("\n========================================");
+            Console.WriteLine("Favourite Orders Statistics");
+            Console.WriteLine("========================================");
 
-            if (favouriteOrderIds.Count == 0)
-                continue;
+            Console.Write("\nEnter Customer Email: ");
+            string customerEmail = Console.ReadLine();
 
-            // Find customer
-            Customer customer = null;
+            // Find the customer
+            Customer selectedCustomer = null;
             foreach (Customer c in customers)
             {
-                if (c.EmailAddress == customerEmail)
+                if (c.EmailAddress.ToLower() == customerEmail.ToLower())
                 {
-                    customer = c;
+                    selectedCustomer = c;
                     break;
                 }
             }
 
-            if (customer == null)
-                continue;
+            if (selectedCustomer == null)
+            {
+                Console.WriteLine("Invalid customer email. Customer not found.");
+                return;
+            }
 
-            Console.WriteLine($"\n--- Customer: {customer.CustomerName} ({customerEmail}) ---");
+            // Check if customer has any favourite orders
+            if (!customerFavouriteOrders.ContainsKey(selectedCustomer.EmailAddress) ||
+                customerFavouriteOrders[selectedCustomer.EmailAddress].Count == 0)
+            {
+                Console.WriteLine($"\nCustomer {selectedCustomer.CustomerName} has no favourite orders.");
+                return;
+            }
+
+            List<int> favouriteOrderIds = customerFavouriteOrders[selectedCustomer.EmailAddress];
+
+            Console.WriteLine($"\n--- Customer: {selectedCustomer.CustomerName} ({selectedCustomer.EmailAddress}) ---");
             Console.WriteLine($"Total Favourite Orders: {favouriteOrderIds.Count}");
 
             double customerFavouriteTotal = 0.0;
             Dictionary<string, int> customerRestaurantCount = new Dictionary<string, int>();
+            Dictionary<string, double> restaurantSpending = new Dictionary<string, double>();
 
             foreach (int favouriteOrderId in favouriteOrderIds)
             {
                 // Find the order
                 Order favouriteOrder = null;
-                foreach (Order o in customer.Orders)
+                foreach (Order o in selectedCustomer.Orders)
                 {
                     if (o.OrderID == favouriteOrderId)
                     {
@@ -1572,7 +1678,6 @@ class Program
                 if (favouriteOrder == null)
                     continue;
 
-                totalFavouriteOrders++;
                 customerFavouriteTotal += favouriteOrder.OrderTotal;
 
                 // Find restaurant for this order
@@ -1583,19 +1688,14 @@ class Program
                     {
                         restaurantName = r.RestaurantName;
 
-                        // Count for global statistics
-                        if (!restaurantFavouriteCount.ContainsKey(restaurantName))
-                        {
-                            restaurantFavouriteCount[restaurantName] = 0;
-                        }
-                        restaurantFavouriteCount[restaurantName]++;
-
                         // Count for customer statistics
                         if (!customerRestaurantCount.ContainsKey(restaurantName))
                         {
                             customerRestaurantCount[restaurantName] = 0;
+                            restaurantSpending[restaurantName] = 0.0;
                         }
                         customerRestaurantCount[restaurantName]++;
+                        restaurantSpending[restaurantName] += favouriteOrder.OrderTotal;
 
                         break;
                     }
@@ -1603,10 +1703,17 @@ class Program
             }
 
             Console.WriteLine($"Total Amount Spent on Favourites: ${customerFavouriteTotal:F2}");
+            Console.WriteLine($"Average Favourite Order Value: ${(favouriteOrderIds.Count > 0 ? customerFavouriteTotal / favouriteOrderIds.Count : 0):F2}");
 
-            // Display customer's most frequently ordered restaurant
+            // Display customer's restaurant preferences
             if (customerRestaurantCount.Count > 0)
             {
+                Console.WriteLine("\nFavourite Orders by Restaurant:");
+                foreach (var entry in customerRestaurantCount)
+                {
+                    Console.WriteLine($"  - {entry.Key}: {entry.Value} order(s), Total: ${restaurantSpending[entry.Key]:F2}");
+                }
+
                 string mostFrequentRestaurant = "";
                 int maxCount = 0;
 
@@ -1619,44 +1726,10 @@ class Program
                     }
                 }
 
-                Console.WriteLine($"Most Frequently Ordered Restaurant: {mostFrequentRestaurant} ({maxCount} favourite order(s))");
+                Console.WriteLine($"\nMost Frequently Ordered Restaurant: {mostFrequentRestaurant} ({maxCount} favourite order(s))");
             }
 
-            totalAmountFromFavourites += customerFavouriteTotal;
-        }
-
-        // Display global statistics
-        Console.WriteLine("\n========================================");
-        Console.WriteLine("GLOBAL STATISTICS");
-        Console.WriteLine("========================================");
-        Console.WriteLine($"Total Favourite Orders in System: {totalFavouriteOrders}");
-        Console.WriteLine($"Total Amount from Favourite Orders: ${totalAmountFromFavourites:F2}");
-
-        if (restaurantFavouriteCount.Count > 0)
-        {
-            string mostPopularRestaurant = "";
-            int maxGlobalCount = 0;
-
-            foreach (var entry in restaurantFavouriteCount)
-            {
-                if (entry.Value > maxGlobalCount)
-                {
-                    maxGlobalCount = entry.Value;
-                    mostPopularRestaurant = entry.Key;
-                }
-            }
-
-            Console.WriteLine($"Most Popular Restaurant (Across All Favourites): {mostPopularRestaurant} ({maxGlobalCount} favourite order(s))");
-
-            Console.WriteLine("\nFavourite Orders by Restaurant:");
-            foreach (var entry in restaurantFavouriteCount)
-            {
-                Console.WriteLine($"  - {entry.Key}: {entry.Value} favourite order(s)");
-            }
-        }
-        else
-        {
-            Console.WriteLine("No favourite orders in the system yet.");
+            Console.WriteLine("\n========================================");
         }
     }
-}
+
