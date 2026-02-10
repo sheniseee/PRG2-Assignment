@@ -52,14 +52,14 @@ namespace PRG2_Assignment
             }
         }
 
-        public bool RemoveFoodItem(int foodItemId)
+        public bool RemoveFoodItem(string itemName)
         {
-            for (int i = 0; i < FoodItems.Count; i++) // Use 'FoodItems' and correct the loop logic
+            for (int i = 0; i < FoodItems.Count; i++)
             {
-                if (FoodItems[i].FoodItemId == foodItemId)
+                if (FoodItems[i].ItemName == itemName)
                 {
                     FoodItems.RemoveAt(i);
-                    Console.WriteLine($"Food item with ID {foodItemId} removed from the menu '{MenuName}' successfully.");
+                    Console.WriteLine($"Food item '{itemName}' removed from the menu '{MenuName}' successfully.");
                     return true;
                 }
             }
@@ -79,7 +79,7 @@ namespace PRG2_Assignment
                 Console.WriteLine("Food items in the menu:");
                 foreach (var item in FoodItems)
                 {
-                    Console.WriteLine($"ID: {item.FoodItemId}, Name: {item.FoodItemName}, Price: {item.Price:C}");
+                    Console.WriteLine($"Name: {item.ItemName}, Price: {item.ItemPrice:C}, Description: {item.ItemDesc}");
                 }
             }
         }
